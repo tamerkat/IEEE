@@ -8,12 +8,17 @@ const users = [
   { id: 3, name: "Mai Yasser", email: "mai@me.io" },
 ];
   
+
+
 router.get("/getall", async (req, res)=>{
   res.status(200).json({
     status: "success",
     data: users,
   })
 })
+
+
+
 
 router.get("/getone", async (req, res)=>{
   try {
@@ -35,6 +40,9 @@ router.get("/getone", async (req, res)=>{
   }
 })
 
+
+
+
 router.post("/postdata", async (req, res)=>{
   const newdata = req.body;
   users.push(newdata)
@@ -49,12 +57,17 @@ router.post("/postdata", async (req, res)=>{
   })
 })
 
+
+
+
+
 router.delete("/deleteuser", async (req, res)=>{
   try {
     const id = req.query.id;
+    const userIndex = users.findIndex((user) => user.id === +id);
     const user = users.find((user)=> user.id === +id)
 
-    users.splice(id, 1)
+    users.splice(userIndex, 1)
     if(!user){
       return res.status(404).json({
         massage: "invaild data"
@@ -71,28 +84,32 @@ router.delete("/deleteuser", async (req, res)=>{
   })
 })
 
-router.patch("/patch", async (req, res)=>{
+
+
+
+router.patch("/patch", async (req, res) => {
   try {
     const id = req.query.id;
     const update = req.body;
-    const user = users.find((user)=> user.id === +id);
-  
-    if(!user || !update){
-      res.status(404).json({massage: 'invaild data'})
+    const user = users.find((user) => user.id === +id);
+
+
+    if (!update || !user) {
+      return res.status(404).json({ message: 'Invalid data' });
     }
 
-    user.title = update.title;
-    user.author = update.author;
-  
+    user.name = update.name;
+    user.email = update.email;
+
     res.status(200).json({
-      massage: "success",
+      message: "Success",
       data: user
-    })
+    });
   } catch (error) {
-    console.log(error)
-    res.status(500).json({massage:"intrenal server error"})
+    console.log(error);
+    res.status(200).json({ message: "Internal server error"});
   }
-})
+});
 
 
 module.exports = router ;

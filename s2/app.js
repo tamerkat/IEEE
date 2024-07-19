@@ -11,8 +11,8 @@ app.get('/', (req, res)=>{
 })
 
 
-let port = 3000
-app.listen(3000, ()=> {
+let port = 4000
+app.listen(port, ()=> {
     console.log(`server is running on port ${port}`)
 })
 app.use("/api", handelar);
